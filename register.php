@@ -98,7 +98,7 @@ const Notify = {
         container.appendChild(notification);
         
         const timer = options.timer || 3000;
-        if (timer && !options.showConfirmButton && options.confirmButtonText === undefined) {
+        if (timer && !options.showConfirmButton) {
             setTimeout(() => {
                 notification.style.opacity = '0';
                 notification.style.transform = 'translateX(100%)';
