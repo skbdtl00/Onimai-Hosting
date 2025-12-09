@@ -309,6 +309,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
 
+        /* COUPON SYSTEM REMOVED
         case 'redeem':
             try {
                 $code = $_POST['code'] ?? '';
@@ -386,6 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
             }
             break;
+        */
 
         default:
             echo json_encode([

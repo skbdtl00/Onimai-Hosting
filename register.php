@@ -15,9 +15,12 @@ if (isset($_SESSION['user_id'])) {
     <title>PNK CLOUD - Register</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-        body { font-family: 'Noto Sans Thai', sans-serif; }
+        body { 
+          font-family: 'Mitr', sans-serif;
+          background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 50%, #2d1b4e 100%);
+        }
         .password-requirements { font-size: 0.85rem; color: #666;}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -62,11 +65,73 @@ if (isset($_SESSION['user_id'])) {
     </div>
   </div>
 </main>
+
+<!-- Custom Notification Container -->
+<div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2" style="z-index: 9999;"></div>
+
 <script>
+// Custom Notification System
+const Notify = {
+    show: function(options) {
+        const container = document.getElementById('notificationContainer');
+        const notification = document.createElement('div');
+        
+        const icon = options.icon === 'success' ? '✓' : 
+                    options.icon === 'error' ? '✕' : 
+                    options.icon === 'warning' ? '⚠' : 'ℹ';
+        
+        const bgColor = options.icon === 'success' ? 'bg-green-500' : 
+                       options.icon === 'error' ? 'bg-red-500' : 
+                       options.icon === 'warning' ? 'bg-yellow-500' : 'bg-blue-500';
+        
+        notification.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 max-w-md`;
+        notification.innerHTML = `
+            <div class="flex items-start gap-3">
+                <span class="text-2xl font-bold">${icon}</span>
+                <div class="flex-1">
+                    <h4 class="font-bold text-lg">${options.title || ''}</h4>
+                    <p class="text-sm mt-1">${options.text || ''}</p>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(notification);
+        
+        const timer = options.timer || 3000;
+        if (timer && !options.showConfirmButton) {
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, timer);
+        }
+        
+        return {
+            then: function(callback) {
+                if (options.confirmButtonText) {
+                    setTimeout(() => callback({ isConfirmed: true }), 3000);
+                } else {
+                    setTimeout(() => callback({ isConfirmed: true }), timer);
+                }
+                return this;
+            }
+        };
+    },
+    
+    fire: function(options) {
+        if (typeof options === 'string') {
+            return this.show({ title: arguments[0], text: arguments[1], icon: arguments[2] || 'info' });
+        }
+        return this.show(options);
+    }
+};
+
+const Swal = Notify;
+
 document.addEventListener("DOMContentLoaded",function(){
   function showInvalid(id,msg){
     document.getElementById(id).classList.add("input-error");
-    Swal.fire({icon:'error',title:'ผิดพลาด',text:msg});
+    Notify.fire({icon:'error',title:'ผิดพลาด',text:msg});
   }
   function clearError(id){ document.getElementById(id).classList.remove("input-error"); }
 
@@ -113,17 +178,17 @@ document.addEventListener("DOMContentLoaded",function(){
     }).then(res=>res.json())
     .then(response=>{
       if(response.status==='success'){
-        Swal.fire({icon:'success',title:'สร้างบัญชีแล้ว',text:'บัญชีถูกสร้างสำเร็จ',confirmButtonText:'เข้าสู่ระบบ'})
+        Notify.fire({icon:'success',title:'สร้างบัญชีแล้ว',text:'บัญชีถูกสร้างสำเร็จ',confirmButtonText:'เข้าสู่ระบบ'})
         .then(r=>{
           if(r.isConfirmed)
             window.location.href='login';
         });
       }else{
-        Swal.fire({icon:'error',title:'เกิดข้อผิดพลาด!',text:response.message});
+        Notify.fire({icon:'error',title:'เกิดข้อผิดพลาด!',text:response.message});
       }
     })
     .catch(()=>{
-      Swal.fire({icon:'error',title:'เกิดข้อผิดพลาด!',text:'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'});
+      Notify.fire({icon:'error',title:'เกิดข้อผิดพลาด!',text:'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'});
     });
   });
 });

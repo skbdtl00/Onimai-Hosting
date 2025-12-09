@@ -89,12 +89,12 @@ createTablesIfNotExist($pdo);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Onimai Cloud - Hosting</title>
+    <title>tozei - Hosting</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     
@@ -104,8 +104,22 @@ createTablesIfNotExist($pdo);
     
     <style>
         * {
-            font-family: 'Noto Sans Thai', 'Nunito', sans-serif;
+            font-family: 'Mitr', sans-serif;
         }
+        
+        /* Black-Blue-Purple Gradient Theme */
+        .bg-gradient-primary {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #4a148c 100%) !important;
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #0f0f1e 0%, #1a1a3e 50%, #2d1b4e 100%) !important;
+        }
+        
+        .sidebar-brand-icon img {
+            filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.5));
+        }
+        
         .banner-slider {
             height: 400px;
             margin-bottom: 2rem;
@@ -130,7 +144,7 @@ createTablesIfNotExist($pdo);
         }
 
         .nav-link .badge-success {
-            background-color: #1cc88a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .dropdown-header h5 {
@@ -143,8 +157,8 @@ createTablesIfNotExist($pdo);
         }
 
         .topbar .dropdown-list .dropdown-header {
-            background-color: #4e73df;
-            border: 1px solid #4e73df;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid #667eea;
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
             color: #fff;
@@ -159,9 +173,9 @@ createTablesIfNotExist($pdo);
         }
 
         .collapse-item.active {
-            color: #4e73df !important;
+            color: #8b5cf6 !important;
             font-weight: bold;
-            background-color: #eaecf4;
+            background-color: rgba(139, 92, 246, 0.1);
         }
 
         .nav-item .badge {
@@ -179,6 +193,20 @@ createTablesIfNotExist($pdo);
             font-weight: 800;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
+            color: #a78bfa;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .text-primary {
+            color: #8b5cf6 !important;
         }
     </style>
 </head>
@@ -188,9 +216,9 @@ createTablesIfNotExist($pdo);
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
                 <div class="sidebar-brand-icon">
-                    <i class="fas fa-server"></i>
+                    <img src="assets/img/logo.png" alt="tozei Logo" style="width: 40px; height: 40px;">
                 </div>
-                <div class="sidebar-brand-text mx-3">Onimai Cloud</div>
+                <div class="sidebar-brand-text mx-3">tozei</div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -437,7 +465,7 @@ createTablesIfNotExist($pdo);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>&copy; 2024-2025 Onimai Cloud. All rights reserved.</span>
+                        <span>&copy; 2024-2025 tozei. All rights reserved.</span>
                     </div>
                 </div>
             </footer>
@@ -463,11 +491,6 @@ createTablesIfNotExist($pdo);
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#truewalletTab">
                                 <i class="fas fa-wallet mr-2"></i>TrueWallet
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#redeemTab">
-                                <i class="fas fa-gift mr-2"></i>Redeem Code
                             </a>
                         </li>
                     </ul>
@@ -521,18 +544,6 @@ createTablesIfNotExist($pdo);
                                 </div>
                                 <button type="submit" class="btn btn-success">
                                     <i class="fas fa-check mr-2"></i>ยืนยันการเติมเงิน
-                                </button>
-                            </form>
-                        </div>
-
-                        <div class="tab-pane fade" id="redeemTab">
-                            <form id="redeemForm">
-                                <div class="form-group">
-                                    <label>Redeem Code</label>
-                                    <input type="text" class="form-control" name="code" placeholder="กรอกรหัสคูปอง" required>
-                                </div>
-                                <button type="submit" class="btn btn-info">
-                                    <i class="fas fa-gift mr-2"></i>ใช้คูปอง
                                 </button>
                             </form>
                         </div>
@@ -796,51 +807,104 @@ $(document).ready(function() {
         });
     });
 
-    $('#redeemForm').on('submit', function(e) {
-        e.preventDefault();
-        const code = $(this).find('input[name="code"]').val();
-
-        Swal.fire({
-            title: 'กำลังดำเนินการ...',
-            text: 'กรุณารอสักครู่',
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
-        });
-
-        $.ajax({
-            url: 'api/topup.php',
-            type: 'POST',
-            data: {
-                action: 'redeem',
-                code: code
-            },
-            success: function(response) {
-                Swal.close();
-
-                if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'สำเร็จ',
-                        html: `ใช้คูปองสำเร็จ<br><b>ได้รับเครดิต: ฿${response.credit_amount}</b>`
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire('Error', response.message, 'error');
-                }
-            },
-            error: function() {
-                Swal.close();
-                Swal.fire('Error', 'เกิดข้อผิดพลาด กรุณาลองใหม่', 'error');
-            }
-        });
-    });
 });
 </script>
+    <!-- Custom Notification Container -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2" style="z-index: 9999;"></div>
+
+    <script>
+    // Custom Notification System
+    const Notify = {
+        show: function(options) {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const icon = options.icon === 'success' ? '✓' : 
+                        options.icon === 'error' ? '✕' : 
+                        options.icon === 'warning' ? '⚠' : 'ℹ';
+            
+            const bgColor = options.icon === 'success' ? 'bg-green-500' : 
+                           options.icon === 'error' ? 'bg-red-500' : 
+                           options.icon === 'warning' ? 'bg-yellow-500' : 'bg-blue-500';
+            
+            notification.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 max-w-md`;
+            notification.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <span class="text-2xl font-bold">${icon}</span>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-lg">${options.title || ''}</h4>
+                        <p class="text-sm mt-1">${options.text || ''}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Auto remove after timer
+            const timer = options.timer || 3000;
+            if (timer && !options.showConfirmButton) {
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }, timer);
+            }
+            
+            return {
+                then: function(callback) {
+                    setTimeout(() => callback({ isConfirmed: true }), timer);
+                    return this;
+                }
+            };
+        },
+        
+        fire: function(options) {
+            if (typeof options === 'string') {
+                return this.show({ title: arguments[0], text: arguments[1], icon: arguments[2] || 'info' });
+            }
+            return this.show(options);
+        },
+        
+        showLoading: function() {
+            const container = document.getElementById('notificationContainer');
+            const loading = document.createElement('div');
+            loading.id = 'loadingNotification';
+            loading.className = 'bg-gray-800 text-white px-6 py-4 rounded-lg shadow-lg';
+            loading.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>กำลังดำเนินการ...</span>
+                </div>
+            `;
+            container.appendChild(loading);
+        },
+        
+        close: function() {
+            const loading = document.getElementById('loadingNotification');
+            if (loading) loading.remove();
+        }
+    };
+    
+    // Make Swal alias to Notify for compatibility
+    const Swal = Notify;
+    </script>
+
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" ></script>
     <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="assets/js/sb-admin-2.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js" ></script>
+    <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    </script>
 </body>
 </html>

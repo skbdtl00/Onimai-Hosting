@@ -8,7 +8,6 @@ $stmt = $pdo->prepare("
         CASE t.method
             WHEN 'bank' THEN 'โอนผ่านธนาคาร'
             WHEN 'truewallet' THEN 'TrueWallet'
-            WHEN 'redeem' THEN 'Redeem Code'
         END as method_text,
         CASE t.status
             WHEN 'pending' THEN 'รอตรวจสอบ'
@@ -23,20 +22,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$_SESSION['user_id']]);
 $transactions = $stmt->fetchAll();
-
-// Get redeem history
-$stmt = $pdo->prepare("
-    SELECT 
-        rh.*,
-        rc.code,
-        rc.credit_amount
-    FROM redeem_history rh
-    JOIN redeem_codes rc ON rh.code_id = rc.id
-    WHERE rh.user_id = ?
-    ORDER BY rh.created_at DESC
-");
-$stmt->execute([$_SESSION['user_id']]);
-$redeem_history = $stmt->fetchAll();
 
 ?>
 
@@ -155,34 +140,7 @@ $redeem_history = $stmt->fetchAll();
         </div>
     </div>
 
-    <!-- Redeem History -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">ประวัติการใช้คูปอง</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table" id="redeemTable">
-                    <thead>
-                        <tr>
-                            <th>วันที่</th>
-                            <th>รหัสคูปอง</th>
-                            <th>เครดิตที่ได้รับ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($redeem_history as $redeem): ?>
-                        <tr>
-                            <td><?php echo date('d/m/Y H:i', strtotime($redeem['created_at'])); ?></td>
-                            <td><code><?php echo $redeem['code']; ?></code></td>
-                            <td>฿<?php echo number_format($redeem['credit_amount'], 2); ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 <script>

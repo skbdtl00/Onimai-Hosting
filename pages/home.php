@@ -6,12 +6,12 @@ if (empty($banners)) {
     $banners = [
         [
             'image_url' => 'https://www.deinfinity.com/images/hosting_banner.jpg',
-            'title' => 'Onimai Cloud',
+            'title' => 'tozei',
             'description' => 'ยินดีต้อนรับ'
         ],
         [
             'image_url' => 'https://www.deinfinity.com/images/hosting_banner.jpg',
-            'title' => 'Onimai Cloud',
+            'title' => 'tozei',
             'description' => 'ยินดีต้อนรับ'
         ],
     ];
@@ -19,7 +19,7 @@ if (empty($banners)) {
 if (empty($news)) {
     $news = [
         [
-            'title' => 'Welcome to Onimai Cloud',
+            'title' => 'Welcome to tozei',
             'content' => 'We are launching our new hosting service!',
             'created_at' => date('Y-m-d H:i:s')
         ]
